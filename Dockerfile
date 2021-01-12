@@ -8,8 +8,7 @@ RUN git clone https://github.com/dashesy/cc-tool.git
 RUN cd /cc-tool \
 	&& ./bootstrap \
 	&& ./configure \
-	&& make \
-	&& ln -s /cc-tool/cc-tool /bin/cc-tool
+	&& make
 
 FROM ubuntu
 
@@ -20,7 +19,7 @@ ENTRYPOINT ["/bin/cc-tool"]
 CMD ["--help"]
 
 # we wouldn't need this if we used the builder image directly, but maybe this is better than shipping
-# the build toolchain..
+# the build toolchain.. we could also just install libboost-all-dev but that seems to install compilers etc.
 COPY --from=builder [ \
 	"/usr/lib/x86_64-linux-gnu/libboost_regex.so.*", \
 	"/usr/lib/x86_64-linux-gnu/libboost_filesystem.so.*", \
